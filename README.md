@@ -34,21 +34,21 @@ cdn :
 
 to start using easy-noramlizer we need to:
 
-1. import SN from easy-normalizer plugin
+1. import EN from easy-normalizer plugin
 2. in set_config method choose your json in iterator key 
 3. in set_config method choose your nested entity to find and extract
 4. with run method get your normalized data
 
-```import { SN } from "easy-normalizer";```
+```import { EN } from "easy-normalizer";```
 
-`SN.set_config({`
+`EN.set_config({`
 
 &nbsp; &nbsp; `iterator      : <your json to iterate>,`   
 &nbsp; &nbsp; `key           : <name of your key to find>,`
     
 `});`
 
-`const result = SN.run();`
+`const result = EN.run();`
 
 > note: Every entity must have a unique ID for this plugin to work, otherwise new items will overwrite old ones
  
@@ -56,7 +56,7 @@ to start using easy-noramlizer we need to:
 
 In order to have parent id keys in every entity found with your custom name key, set parent_id_key in the configuration object
 
-`SN.set_config({`
+`EN.set_config({`
 
 &nbsp; &nbsp; `parent_id_key  : <name of parent id>,`
     
@@ -70,7 +70,7 @@ In order to have parent id keys in every entity found with your custom name key,
 
 If you want to sort entities by alphabet, you should set your key to compare, language of alphabet, and isSort to true
 
-`SN.set_config({`
+`EN.set_config({`
     
 &nbsp; &nbsp; `sort          : {`
 
@@ -92,7 +92,7 @@ Your key_to_compare will automatically sort by number if all values are numeric
 
 Your key_to_compare you should set strictSort to 'month' then it will be sort by month if all values are month name in accordance with lang key
 
-`SN.set_config({`
+`EN.set_config({`
     
 &nbsp; &nbsp; `sort          : {`
 
@@ -113,7 +113,7 @@ Your key_to_compare you should set strictSort to 'month' then it will be sort by
 If the sorted entities are reverse from what you want, set reverse to true 
 
 
-`SN.set_config({`
+`EN.set_config({`
     
 &nbsp; &nbsp; `sort          : {`
 
@@ -127,7 +127,7 @@ If the sorted entities are reverse from what you want, set reverse to true
 ## example
 
 
-`SN.set_config({`
+`EN.set_config({`
 
 &nbsp; &nbsp; `iterator      : users,`   
 
@@ -149,4 +149,4 @@ If the sorted entities are reverse from what you want, set reverse to true
 
 `});`
 
-`const result = SN.run();`
+`const result = EN.run();`

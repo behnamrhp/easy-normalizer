@@ -2,7 +2,7 @@
  * @see must set iterator and key of it with unique id
  * @see must set iterator with id key for all elements 
  */
- class SimpleNormalizer {
+ class EasyNormalizer {
     config = {
         iterator: null,
         key: null,
@@ -275,4 +275,4 @@
     }
 }
 
-export const SN = new SimpleNormalizer();
+export const EN = new EasyNormalizer();
