@@ -1,5 +1,5 @@
 {
-  "name": "simple-normalizer",
+  "name": "easy-normalizer",
   "version": "1.0.0",
   "description": "plugin for normalize and custom sort your array and objects in simplest way",
   "main": "index.js",

@@ -1,7 +1,7 @@
-# simple-normalizer
+# easy-normalizer
 
 ## about
-> **Simple-normalizer** uses a simple approach to return deeply nested entities with their ids.
+> **easy-normalizer** uses a simple approach to return deeply nested entities with their ids.
 > 
 > Each entity is assumed to have a unique ID value.
 > 
@@ -23,23 +23,23 @@
 npm :
 
  `
-   npm install simple-normalizer
+   npm install easy-normalizer
  `
 
 cdn :
 
-`<link href="https://cdn.jsdelivr.net/npm/simple-normalizer/dist/index.js" rel="stylesheet" crossorigin="anonymous" />`
+`<link href="https://cdn.jsdelivr.net/npm/easy-normalizer/dist/index.js" rel="stylesheet" crossorigin="anonymous" />`
 
 ## usage
 
-to start using simple noramlizer we need to:
+to start using easy-noramlizer we need to:
 
-1. import SN from simple-normalizer plugin
+1. import SN from easy-normalizer plugin
 2. in set_config method choose your json in iterator key 
 3. in set_config method choose your nested entity to find and extract
 4. with run method get your normalized data
 
-```import { SN } from "simple-nomalizer";```
+```import { SN } from "easy-normalizer";```
 
 `SN.set_config({`
 
