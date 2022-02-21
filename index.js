@@ -213,11 +213,10 @@
         
         //sort entities 
         const new_ids = data.ids.sort((a,b) => {
-            a = data.entities[a];
-            b = data.entities[b];
-            return (is_reverse) ? a[key] - b[key] : b[key] - a[key]
+            a = +data.entities[a][key];
+            b = +data.entities[b][key];
+            return (is_reverse) ? a - b : b - a
         });
-
 
         //sort ids
         return {
