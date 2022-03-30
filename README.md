@@ -133,3 +133,20 @@ EN.set_config({
 
 const result = EN.run();
 ```
+
+## add, update or remove entity
+
+you can use these following method to modify your normalizedData object
+
+```javascript
+  //add
+  EN.addToNormalizedData(normalizedData, newData);
+
+  //update
+  EN.updateNormalizedData(normalizedData, newData);
+
+  //remove
+  EN.removeNormalizedData(normalizedData, data)
+```
+
+> note: for each above method newData and data shoud have unique id
