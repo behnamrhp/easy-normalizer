@@ -273,6 +273,30 @@
             entities : data.entities
         }
     }
+  
+  addToNormalizedData(normalizedData, data){
+        if(!data.id || !normalizedData.ids || !normalizedData.entities) return console.error('please enter valid normalized data and new data with unique id');
+    
+        normalizedData.ids.push( +data.id );
+        const newMap = new Map( Object.entries(normalizedData.entities) );
+        newMap.set( +data.id, { ...data });
+        normalizedData.entities = Object.fromEntries(newMap);
+    }
+    
+    removeNormalizedData(normalizedData, data){
+        if(!data.id || !normalizedData.ids || !normalizedData.entities) return console.error('please enter valid normalized data and new data with unique id');
+    
+        normalizedData.ids = normalizedData.ids.filter( id => +id !== +data.id);
+        delete normalizedData.entities[+data.id];
+    }
+    
+    updateNormalizedData(normalizedData, data){
+        if(!data.id || !normalizedData.ids || !normalizedData.entities) return console.error('please enter valid normalized data and new data with unique id');
+    
+        normalizedData.ids.forEach(id => {
+            if(+id === +data.id) normalizedData.entities[id] = { ...normalizedData.entities[id], ...data }
+        });
+    }
 }
 
 const EN = new EasyNormalizer();
