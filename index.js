@@ -17,6 +17,11 @@
     }
 
     _normalizer(data_iterator, parent_id_key, parent_id){
+        if(!(data_iterator instanceof Array) || ((data_iterator instanceof Array) && !data_iterator[0].id )){
+            throw console.error(`please select key with array value dataType that consist id`);
+            
+        }
+        
         //set ids
         const ids           = data_iterator.map((data, i) => {
             if(!data.id || typeof data.id == undefined) throw console.error(`some of data element has no valid id key please insert iterator with id key for all of its elements`);
@@ -34,7 +39,6 @@
             };
             return entity;
         }); 
-        
         entities = entities.reduce((prev,curr,i) =>({...prev,[ids[i]] : curr }),{})
 
         return {ids, entities};
@@ -50,20 +54,22 @@
     };
        //normalize first nest only
        if(!key){
-        let found = this._normalizer(this.config.iterator, false, false);
-        
+        let found = this._normalizer(iterator, false, false);
+        if(!found) return false;
+        if(this.config.sort.isSort) found =  this._sortData(found);
         
         return found
         }
     
       if(data[key]){
         const found = this._normalizer(data[key], parent_id_key, data.id);
+        if(!found) return false;
+
         if(found.ids?.length !== 0){
             
             data_found.ids      = [...data_found.ids, ...found.ids] ;  
             data_found.entities = {...data_found.entities, ...found.entities};  
         } 
-        
     } 
         
     //find key in nested data
@@ -81,7 +87,8 @@
               
              if(param instanceof Object || param instanceof Array) {   
                const result = this._loopRun(param, key, parent_id_key);
-               
+               if(!result) return;
+
                 if(result.ids?.length !== 0){
                     result.ids.forEach(id => {
                         
@@ -125,15 +132,14 @@
         };
 
         const {iterator} = this.config;
-
         const parent_id_key =  this.config.parent_id_key;
         const key =  this.config.key;
-
+        
         if(!(this.config.iterator && (this.config.iterator instanceof Array || this.config.iterator instanceof Object)) ) return console.error('please set correct iterator config first');
 
           //find key in nested data
           const result = this._loopRun(iterator, key, parent_id_key);
-        
+        if(!result) return;
           if(result.ids?.length !== 0)
           {
             data_found.ids      = [...data_found.ids, ...result.ids] ;  
@@ -150,12 +156,7 @@
     persisan_months  = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
     _sortData(data){
         //error handle for entered key to compare
-        const check_key_to_compare_exist = data.ids.every(id => {
-
-            if(!data.entities[id]) return true
-            
-           return data.entities[id][this.config.sort.keyToCompare]
-        });
+        const check_key_to_compare_exist = data.ids.every(id => data.entities[id][this.config.sort.keyToCompare]);
 
         if(!check_key_to_compare_exist){
             console.error('your key to compare not found for sort');
@@ -164,7 +165,7 @@
         
         //check if all of data is number type
         const is_number = data.ids.every(id => {
-             return isFinite(+data.entities[id][this.config.sort.keyToCompare]);
+             return isFinite(data.entities[id][this.config.sort.keyToCompare]);
         });
 
         //sort by number
@@ -199,11 +200,10 @@
         });
         if(is_reverse) new_ids.reverse();
 
-
         //sort ids
         return {
             ids          : [...new_ids],
-            entities     : data.entities
+            entities     : {...data.entities}
         }
     }
 
@@ -213,15 +213,15 @@
         
         //sort entities 
         const new_ids = data.ids.sort((a,b) => {
-            a = +data.entities[a][key];
-            b = +data.entities[b][key];
-            return (is_reverse) ? a - b : b - a
+            a = data.entities[a];
+            b = data.entities[b];
+            return (is_reverse) ? a[key] - b[key] : b[key] - a[key]
         });
 
         //sort ids
         return {
             ids          : [...new_ids],
-            entities     : data.entities
+            entities : {...data.entities}
         }
 
     }
@@ -267,14 +267,15 @@
         //sort type check
         if(is_reverse)  new_ids.reverse();
         
-        
+        //make ids
+       
         return {
             ids      : [ ...new_ids ],
-            entities : data.entities
+            entities : { ...entities }
         }
     }
-  
-  addToNormalizedData(normalizedData, data){
+
+    addToNormalizedData(normalizedData, data){
         if(!data.id || !normalizedData.ids || !normalizedData.entities) return console.error('please enter valid normalized data and new data with unique id');
     
         normalizedData.ids.push( +data.id );
@@ -297,6 +298,7 @@
             if(+id === +data.id) normalizedData.entities[id] = { ...normalizedData.entities[id], ...data }
         });
     }
+    
 }
 
-const EN = new EasyNormalizer();
+export const EN  = new EasyNormalizer();
